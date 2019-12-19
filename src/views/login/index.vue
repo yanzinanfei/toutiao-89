@@ -71,11 +71,11 @@ export default {
           // 地址参数  查询参数params  对象
           // body 参数
           this.$axios({
-            url: '/authorizations',
-            methos: 'post',
+            url: '/authorizations', // 请求地址
+            method: 'post',
             data: this.loginForm
-          }).then(resule => {
-
+          }).then(result => {
+            console.log(result)
           }).catch(error => {
             console.log(error)
           })
