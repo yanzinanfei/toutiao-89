@@ -10,10 +10,10 @@
       <!-- 右侧 -->
     <el-col class="right" :span="4">
       <el-row type='flex' justify="end" align="middle">
-        <img src="../../assets/img/2.jpg" alt="">
+        <img :src="!userInfo.photo ? userInfo.photo : defaultImg" alt="">
         <!-- 下拉菜单 -->
         <el-dropdown>
-          <span>大雪纷飞</span>
+          <span>{{ userInfo.name }}</span>
           <el-dropdown-menu slot="dropdown">
             <!-- 具名插槽 -->
             <el-dropdown-item>个人信息</el-dropdown-item>
@@ -28,7 +28,24 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      userInfo: {}, // 用户信息
+      defaultImg: require('../../assets/img/2.jpg') // 先把地址换成字符串
+    }
+  },
+  created () { // 查询数据
+    let token = window.localStorage.getItem('user-token')
+    this.$axios({
+      url: '/user/profile',
+      // headers参数
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(result => {
+      this.userInfo = result.data.data // 获取用户个人信息
+    })
+  }
 }
 </script>
 
