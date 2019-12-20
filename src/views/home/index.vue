@@ -16,7 +16,8 @@
         </el-header>
         <!-- 主要区域 -->
         <el-main>
-          主要区域容器
+          <!-- 二级路由容器 -->
+          <router-view></router-view>
           </el-main>
       </el-container>
     </el-container>
