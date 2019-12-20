@@ -17,8 +17,8 @@
           <el-input v-model="loginForm.code" style="width:65%" placeHolder="请输入验证码"></el-input>
           <el-button style="float:right" plain>发送验证码</el-button>
         </el-form-item>
-        <el-form-item>
-          <el-checkbox v-model="loginForm.check" prop="check">我已阅读并同意<span style="color: #3296fa">用户协议</span>和<span style="color: #3296fa">隐私条款</span></el-checkbox>
+        <el-form-item prop="check">
+          <el-checkbox v-model="loginForm.check">我已阅读并同意<span style="color: #3296fa">用户协议</span>和<span style="color: #3296fa">隐私条款</span></el-checkbox>
         </el-form-item>
         <el-form-item>
           <el-button @click="submitLogin"  type="primary" style="width:100%">登录</el-button>
@@ -75,9 +75,17 @@ export default {
             method: 'post',
             data: this.loginForm
           }).then(result => {
-            console.log(result)
-          }).catch(error => {
-            console.log(error)
+            // console.log(result)
+            window.localStorage.setItem('user-token', result.data.data.token) // 前端缓存令牌
+            this.$router.push('/home') // 跳转到主页
+            // 成功以后才会进入到then
+          }).catch(() => {
+            // console.log(error)
+            // $message是element-ui的方法
+            this.$message({
+              message: '您的手机号或者验证码不正确',
+              type: 'warning'
+            })
           })
         }
       })
