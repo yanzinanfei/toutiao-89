@@ -1,7 +1,7 @@
 // 对axios进行一个封装
 import axios from 'axios'
-// 请求拦截
-// axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 赋值黑马头条的默认地址
+// 请求拦截器
+axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 赋值黑马头条的默认地址
 axios.interceptors.request.use(function (config) {
   // 执行请求Ok
   // config 是axios的所有配置
@@ -11,5 +11,12 @@ axios.interceptors.request.use(function (config) {
 }, function () {
   // 执行请求失败
   // return Promise.reject(error)
+})
+// 响应拦截
+axios.interceptors.response.use(function (response) {
+  // 成功时执行
+  return response.data ? response.data : {} // 为了解决data不存在时，太狠中读取数据的报错问题
+}, function () {
+  // 失败时执行  状态码不是200  或者201
 })
 export default axios
