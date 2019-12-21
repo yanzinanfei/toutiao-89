@@ -4,7 +4,7 @@
       <!-- 左右布局 -->
       <el-aside style="width:230px">
         <!-- 放置左侧组件 -->
-        <layout-aside style="background-color:#353b4e;min-height:100vh;width:230px">
+        <layout-aside style="background-color:#353b4e;min-height:100%;width:230px">
         </layout-aside>
         </el-aside>
       <!-- 在放置一个container -->
