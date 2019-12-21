@@ -35,13 +35,9 @@ export default {
     }
   },
   created () { // 查询数据
-    let token = window.localStorage.getItem('user-token')
     this.$axios({
-      url: '/user/profile',
+      url: '/user/profile'
       // headers参数
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
     }).then(result => {
       this.userInfo = result.data.data // 获取用户个人信息
     })

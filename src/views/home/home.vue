@@ -12,7 +12,6 @@ export default {
 
 <style lang='less' scoped>
 .home {
-  background-image: url('../../assets/img/5839594555926.jpg');
   height: 100vh;
   background-size: cover;
 }
