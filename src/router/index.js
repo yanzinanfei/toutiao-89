@@ -18,6 +18,10 @@ const routes = [
     children: [{
       path: '', // 二级路由  什么都不写，作为显示组件
       component: Home2
+    }, {
+      // 二级路由表
+      path: '/home/comment', // 完整地址 相对地址
+      component: () => import('../views/comment') // 按需加载
     }]
   }, {
   // 登录页
