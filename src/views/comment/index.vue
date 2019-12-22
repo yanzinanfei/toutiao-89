@@ -55,7 +55,7 @@ export default {
           method: 'put',
           url: '/comments/status',
           params: {
-            article_id: row.id
+            article_id: row.id.toString()
           },
           data: {
             allow_comment: !row.comment_status
@@ -66,7 +66,7 @@ export default {
             type: 'success',
             message: '操作成功'
           })
-          this.getComment()
+          this.getComment() // 重新请求列表
         })
       })
     }
@@ -79,5 +79,4 @@ export default {
 </script>
 
 <style>
-
 </style>

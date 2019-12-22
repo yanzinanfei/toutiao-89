@@ -2,6 +2,7 @@
 import axios from 'axios'
 import router from '../router' // 路由实例对象引入
 import { Message } from 'element-ui' // 引入提示信息
+import JSONBig from 'json-bigint' // 引入第三方的包
 // 请求拦截器
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 赋值黑马头条的默认地址
 axios.interceptors.request.use(function (config) {
@@ -14,6 +15,10 @@ axios.interceptors.request.use(function (config) {
   // 执行请求失败
   // return Promise.reject(error)
 })
+// 后台数据到达响应拦截之前走的一个函数
+axios.defaults.transformResponse = [function (data) {
+  return JSONBig.parse(data) // JSONBig.parse  替换 JSON.parse 保证数据的正确
+}]
 // 响应拦截
 axios.interceptors.response.use(function (response) {
   // 成功时执行
@@ -28,7 +33,7 @@ axios.interceptors.response.use(function (response) {
   let message = ''// 提示信息
   switch (status) {
     case 400:
-      message = '手机号或验证码错误'
+      message = '请求参数错误'
       break
     case 403:
       // 如果同样的状态码 但是不同意思，需要通过 请求地址来判断是哪个的响应，请求地址+状态码--一起来判断 怎么处理
