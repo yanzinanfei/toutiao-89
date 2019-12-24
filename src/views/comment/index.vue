@@ -1,6 +1,6 @@
 <template>
   <!-- 卡片布局 -->
-  <el-card>
+  <el-card v-loading="loading">
     <bread-crumb slot="header">
         <template slot="title">评论列表</template>
     </bread-crumb>
@@ -19,7 +19,15 @@
         <el-button type="text" size="small" @click="open0rClose(obj.row)">{{ obj.row.comment_status ? '关闭评论' : '打开评论' }}</el-button>
         </template>
       </el-table-column>
+      <!-- 分页组件 -->
     </el-table>
+    <el-row type="flex" justify="center" align="middle" style="height:100px">
+  <el-pagination background layout="prev, pager, next" :current-page="page.currentPage"
+  :page-size="page.pageSize"
+  :total="page.total"
+   @current-change="changePage"
+  ></el-pagination>
+</el-row>
   </el-card>
 </template>
 
@@ -27,15 +35,34 @@
 export default {
   data () {
     return {
-      list: []
+      loading: false, // 加载状态默认关闭
+      list: [],
+      page: {
+        // 专门放置分页数据
+        tatal: 0, // 数据总条数
+        pageSize: 10, // 默认每页10条
+        currentPage: 1 // 当前页码 默认第一页
+      }
     }
   },
   methods: {
+    changePage (newPage) {
+      // 修改当前页码
+      // alert(1)
+      this.page.currentPage = newPage
+      this.getComment()
+    },
     // 请求评论列表数据
     getComment () {
+      this.loading = true // 打开状态
       // axios 是默认是get类型
       // query 参数 / 路由参数 地址参数 get参数 axios params
-      this.$axios({ url: '/articles', params: { response_type: 'comment' } }).then(result => { this.list = result.data.results }) // 获取列表评论数据给list
+      this.$axios({ url: '/articles', params: { response_type: 'comment', page: this.page.currentPage, par_page: this.page.pageSize } }).then(result => {
+        this.list = result.data.results
+        this.page.total = result.data.total_count // 获取文章总条数
+        // setTimeout(() => { this.loading = false }, 1000)
+        this.loading = false
+      }) // 获取列表评论数据给本身data
     },
     // 定义一个布尔值转化方法
     fromatterBool (row, column, cellValue, index) {
