@@ -20,8 +20,11 @@ const routes = [
       component: Home2
     }, {
       // 二级路由表
-      path: '/home/comment', // 完整地址 相对地址
+      path: 'comment', // 完整地址 相对地址
       component: () => import('../views/comment') // 按需加载
+    }, {
+      path: 'material',
+      component: () => import('../views/material')// 按需加载 素材列表
     }]
   }, {
   // 登录页
