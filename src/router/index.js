@@ -11,7 +11,7 @@ const routes = [
     redirect: '/home'
   },
   {
-  // 主页
+    // 主页
     path: '/home',
     name: 'home',
     component: Home,
@@ -25,9 +25,12 @@ const routes = [
     }, {
       path: 'material',
       component: () => import('../views/material')// 按需加载 素材列表
+    }, {
+      path: 'articles',
+      component: () => import('../views/artivles') // 按需加载 文章列表
     }]
   }, {
-  // 登录页
+    // 登录页
     path: '/login',
     component: Login
   }
