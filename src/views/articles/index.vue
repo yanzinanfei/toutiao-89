@@ -33,9 +33,7 @@
           <!-- 循环生成多个el-option -->
           <!-- label 指的是el-option的显示值
           value 指的是el-option 的存储值-->
-          <el-option v-for="item in channels"
-          :key="item.id" :label="item.name"
-          :value="item.id"></el-option>
+          <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-col>
     </el-row>
@@ -51,6 +49,35 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
+      </el-col>
+    </el-row>
+    <el-row class="total">
+      <!-- 主体 -->
+      <span>共找到1000条符合条件的内容</span>
+    </el-row>
+    <!-- 循环模板 -->
+    <el-row v-for="item in 100" :key="item" class="article-item" type="flex" justify="space-between">
+      <!-- 左 -->
+      <el-col :span="10">
+        <el-row type="flex">
+          <img src="../../assets/img/2.jpg" alt />
+          <div class="tianwang">
+            <span>天王盖地虎</span>
+            <el-tag class="tag">标签一</el-tag>
+            <span class="data">2019-12-26 22:01:35</span>
+          </div>
+        </el-row>
+      </el-col>
+      <!-- 右 -->
+      <el-col :span="6">
+        <el-row class="right" type="flex" justify="end">
+          <span>
+            <i class="el-icon-edit"></i>修改
+          </span>
+          <span>
+            <i class="el-icon-delete"></i>删除
+          </span>
+        </el-row>
       </el-col>
     </el-row>
   </el-card>
@@ -88,6 +115,42 @@ export default {
   .searchTool {
     height: 60px;
     padding-left: 50px;
+  }
+  .total {
+    margin: 30px 0px;
+    height: 35px;
+    border-bottom: 1px dashed #ccc;
+  }
+  .article-item {
+    margin: 20px 0px;
+    padding: 1ex;
+    border-bottom: 1px solid #f2f3f5;
+    img {
+      width: 180px;
+      height: 100px;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+    .tianwang {
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .tag {
+        max-width: 70px;
+      }
+      .data {
+        color: #999;
+        font-size: 12px;
+      }
+    }
+    .right {
+      span {
+        margin-left: 8px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+    }
   }
 }
 </style>
