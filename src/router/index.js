@@ -27,7 +27,7 @@ const routes = [
       component: () => import('../views/material')// 按需加载 素材列表
     }, {
       path: 'articles',
-      component: () => import('../views/artivles') // 按需加载 文章列表
+      component: () => import('../views/articles') // 按需加载 文章列表
     }]
   }, {
     // 登录页
