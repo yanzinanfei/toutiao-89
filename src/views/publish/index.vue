@@ -36,8 +36,9 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button @click="publishArticle" type="primary">发布</el-button>
-        <el-button @click="publishArticle">存入草稿</el-button>
+        <!-- @事件名="方法" -》有默认参数 -》方法()括号默认参数false -->
+        <el-button @click="publishArticle()" type="primary">发布</el-button>
+        <el-button @click="publishArticle(true)">存入草稿</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -81,10 +82,20 @@ export default {
         this.channels = result.data.channels // 获取频道数据
       })
     },
-    publishArticle () {
-      this.$refs.publishForm.validate(function (isOK) {
+    // 发布文章
+    publishArticle (draft) {
+      this.$refs.publishForm.validate((isOK) => {
         if (isOK) {
-          console.log('校验成功')
+          // 可以去进行 发布接口调用
+          this.$axios({
+            url: '/articles',
+            method: 'post',
+            params: { draft }, // query参数
+            data: this.formData
+          }).then(() => {
+            // 新增成功 ->应该去内容列表
+            this.$router.push('/home/articles') // 回到内容列表
+          })
         }
       })
     }
