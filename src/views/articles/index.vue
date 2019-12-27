@@ -56,15 +56,22 @@
       <span>共找到1000条符合条件的内容</span>
     </el-row>
     <!-- 循环模板 -->
-    <el-row v-for="item in 100" :key="item" class="article-item" type="flex" justify="space-between">
+    <el-row
+      v-for="item in list"
+      :key="item.id.toString()"
+      class="article-item"
+      type="flex"
+      justify="space-between"
+    >
       <!-- 左 -->
       <el-col :span="10">
         <el-row type="flex">
-          <img src="../../assets/img/2.jpg" alt />
+          <img :src="item.cover.images.length ? item.cover.images[0]: defaultImg" alt />
           <div class="tianwang">
-            <span>天王盖地虎</span>
-            <el-tag class="tag">标签一</el-tag>
-            <span class="data">2019-12-26 22:01:35</span>
+            <span>{{ item.title }}</span>
+            <!-- 过滤器不但可以在插值表达式中使用 还可以在v-bind表达式中使用 -->
+            <el-tag :type="item.status | filterType" class="tag">{{ item.status | filterStatus}}</el-tag>
+            <span class="data">{{ item.pubdate }}</span>
           </div>
         </el-row>
       </el-col>
@@ -91,7 +98,42 @@ export default {
         channel_id: null, // 默认是空
         dataRange: []
       },
-      channels: [] // 定义一个channels 接受频道
+      channels: [], // 定义一个channels 接受频道
+      list: [], // 接收文章列表数据
+      defaultImg: require('../../assets/img/2.jpg')
+    }
+  },
+  filters: {
+    // 处理显示状态
+    filterStatus (value) {
+      // value 是过滤器前面表达式计算得到的值
+      switch (value) {
+        case 0:
+          return '草稿'
+        case 1:
+          return '待审核'
+        case 2:
+          return '已发表'
+        case 3:
+          return '审核失败'
+        default:
+          break
+      }
+    },
+    filterType (value) {
+      // value 是过滤器前面表达式计算得到的值
+      switch (value) {
+        case 0:
+          return 'warning'
+        case 1:
+          return 'info'
+        case 2:
+          return ''
+        case 3:
+          return 'danger'
+        default:
+          break
+      }
     }
   },
   methods: {
@@ -102,10 +144,19 @@ export default {
       }).then(result => {
         this.channels = result.data.channels // 获取频道数据
       })
+    },
+    // 获取文章列表数据
+    getArticles () {
+      this.$axios({
+        url: '/articles' // 请求地址
+      }).then(result => {
+        this.list = result.data.results // 接收文章列表数据
+      })
     }
   },
   created () {
     this.getChannels() // 调用获取频道数据
+    this.getArticles() // 调用读取文章列表
   }
 }
 </script>
@@ -115,9 +166,10 @@ export default {
   .searchTool {
     height: 60px;
     padding-left: 50px;
+    margin: 0 auto;
   }
   .total {
-    margin: 30px 0px;
+    margin: 60px 0px;
     height: 35px;
     border-bottom: 1px dashed #ccc;
   }
@@ -137,7 +189,7 @@ export default {
       flex-direction: column;
       justify-content: space-between;
       .tag {
-        max-width: 70px;
+        max-width: 58px;
       }
       .data {
         color: #999;
