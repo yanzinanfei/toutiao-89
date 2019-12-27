@@ -14,7 +14,7 @@
         -->
         <!-- 单选框组 -->
         <!-- 第一种方式用  @change="changeCondition" 第二种方式 用watch-->
-        <el-radio-group v-model="formData.status">
+        <el-radio-group @change="changeCondition" v-model="formData.status">
           <!-- 全部这个5是默认的,在传参的时候判断一下 是不是5 如果是5 就传个null -->
           <el-radio :label="5">全部</el-radio>
           <el-radio :label="0">草稿</el-radio>
@@ -29,7 +29,7 @@
         <span>频道列表</span>
       </el-col>
       <el-col :span="18">
-        <el-select v-model="formData.channel_id">
+        <el-select @change="changeCondition" v-model="formData.channel_id">
           <!-- 循环生成多个el-option -->
           <!-- label 指的是el-option的显示值
           value 指的是el-option 的存储值-->
@@ -43,6 +43,8 @@
       </el-col>
       <el-col :span="18">
         <el-date-picker
+         @change="changeCondition"
+          value-format="yyyy-MM-dd"
           v-model="formData.dataRange"
           type="daterange"
           range-separator="-"
@@ -96,7 +98,7 @@ export default {
       formData: {
         status: 5, // 状态
         channel_id: null, // 默认是空
-        dataRange: []
+        dataRange: [] // 默认为空数组
       },
       channels: [], // 定义一个channels 接受频道
       list: [], // 接收文章列表数据
@@ -137,6 +139,17 @@ export default {
     }
   },
   methods: {
+    // 改变条件
+    changeCondition () {
+      // 组装条件
+      let params = {
+        status: this.formData.status === 5 ? null : this.formData.status, // 不传为全部，5代表全部
+        channels_id: this.formData.channel_id, // 频道
+        begin_pubdate: this.formData.dataRange.length ? this.formData.dataRange[0] : null, // 起始时间
+        end_pubdate: this.formData.dataRange.length > 1 ? this.formData.dataRange[1] : null // 截止时间
+      }
+      this.getArticles(params)
+    },
     // 获取频道
     getChannels () {
       this.$axios({
@@ -146,9 +159,10 @@ export default {
       })
     },
     // 获取文章列表数据
-    getArticles () {
+    getArticles (params) {
       this.$axios({
-        url: '/articles' // 请求地址
+        url: '/articles', // 请求地址
+        params
       }).then(result => {
         this.list = result.data.results // 接收文章列表数据
       })
