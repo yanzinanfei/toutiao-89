@@ -28,6 +28,9 @@ const routes = [
     }, {
       path: 'articles',
       component: () => import('../views/articles') // 按需加载 文章列表
+    }, {
+      path: 'publish',
+      component: () => import('../views/publish') // 按需加载 发布文章
     }]
   }, {
     // 登录页
