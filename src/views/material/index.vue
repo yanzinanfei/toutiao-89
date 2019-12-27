@@ -44,6 +44,14 @@
           <!-- v-for -->
           <el-card class="img-card" v-for="item in list" :key="item.id">
             <img :src="item.url" alt />
+            <el-row class="operate" type="flex" align="middle" justify="space-around">
+              <i
+                @click="collectOrCancel(item)"
+                :style="{color:item.is_collected ? 'red':''}"
+                class="el-icon-star-on"
+              ></i>
+              <i @click="delMaterial(item.id)" class="el-icon-delete-solid"></i>
+            </el-row>
           </el-card>
         </div>
         <el-row type="flex" justify="center" style="height:80px" align="middle">
