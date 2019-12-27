@@ -73,6 +73,23 @@ export default {
       }
     }
   },
+  watch: {
+    $route: function (to, from) {
+      if (Object.keys(to.params).length) {
+        // 有参数 --》修改
+      } else {
+        // 没有参数 == 发布
+        this.formData = this.formData = {
+          title: '', // 标题
+          content: '', // 文章内容
+          cover: {
+            type: 0, // 封面类型
+            images: [] // 存储图片地址
+          }
+        }
+      }
+    }
+  },
   methods: {
     //   获取频道
     getChannels () {
@@ -84,7 +101,7 @@ export default {
     },
     // 发布文章
     publishArticle (draft) {
-      this.$refs.publishForm.validate((isOK) => {
+      this.$refs.publishForm.validate(isOK => {
         if (isOK) {
           // 可以去进行 发布接口调用
           this.$axios({

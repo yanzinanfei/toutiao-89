@@ -29,22 +29,18 @@ const routes = [
       path: 'articles',
       component: () => import('../views/articles') // 按需加载 文章列表
     }, {
-      path: 'publish',
+      path: 'publish/:articleId', // 定义动态路由参数
       component: () => import('../views/publish') // 按需加载 发布文章
-    }]
+    }, {
+      path: 'publish', // 此规则匹配发布文章
+      component: () => import('../views/publish') // 按需加载 发布文章
+    }
+    ]
   }, {
     // 登录页
     path: '/login',
     component: Login
   }
-  // {
-  //   path: '/about',
-  //   name: 'about',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // }
 ]
 
 const router = new VueRouter({
