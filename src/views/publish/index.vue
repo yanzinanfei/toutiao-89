@@ -25,6 +25,7 @@
           <el-radio :label="0">无图</el-radio>
           <el-radio :label="-1">自动</el-radio>
         </el-radio-group>
+        {{ formData.cover }}
       </el-form-item>
       <el-form-item prop="channel_id" label="频道">
         <el-select v-model="formData.channel_id">
@@ -77,6 +78,7 @@ export default {
     $route: function (to, from) {
       if (Object.keys(to.params).length) {
         // 有参数 --》修改
+        this.getArticleById(to.params.articleId) // 重新拉取数据
       } else {
         // 没有参数 == 发布
         this.formData = this.formData = {
@@ -88,8 +90,20 @@ export default {
           }
         }
       }
+    },
+    'formData.cover.type': function () {
+      // this指向组件实例
+      if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+        // 无图或者自动模式
+        this.formData.cover.images = []
+      } else if (this.formData.cover.type === 1) {
+        this.formData.cover.images = [''] // 单图模式
+      } else if (this.formData.cover.type === 3) {
+        this.formData.cover.images = ['', '', ''] // 单图模式
+      }
     }
   },
+
   methods: {
     //   获取频道
     getChannels () {
