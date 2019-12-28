@@ -15,11 +15,11 @@
         <el-input v-model="formData.title" style="width:33%"></el-input>
       </el-form-item>
       <el-form-item prop="content" label="内容">
-        <quill-editor style="height:400px" v-model="formData.content" type="textarea" :rows="4"></quill-editor>
+        <quill-editor style="height:300px" v-model="formData.content" type="textarea" :rows="4"></quill-editor>
       </el-form-item>
       <el-form-item prop="type" label="封面" style="margin-top:130px">
         <!-- 单选组  v-model="封面类型" -->
-        <el-radio-group v-model="formData.cover.type">
+        <el-radio-group @change="changeType" v-model="formData.cover.type">
           <el-radio :label="1">单图</el-radio>
           <el-radio :label="3">三图</el-radio>
           <el-radio :label="0">无图</el-radio>
@@ -27,9 +27,7 @@
         </el-radio-group>
       </el-form-item>
       <!-- 放置一个封面组件 父传子 props   1.定义属性2.接收属性 -->
-      <cover-image :list='formData.cover.images'>
-
-      </cover-image>
+      <cover-image :list="formData.cover.images"></cover-image>
       <el-form-item style="margin-top:30px" prop="channel_id" label="频道">
         <el-select v-model="formData.channel_id">
           <!-- 循环生成多个el-option
@@ -93,8 +91,22 @@ export default {
           }
         }
       }
-    },
-    'formData.cover.type': function () {
+    }
+    // 'formData.cover.type': function () {
+    //   // this指向组件实例
+    //   if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+    //     // 无图或者自动模式
+    //     this.formData.cover.images = []
+    //   } else if (this.formData.cover.type === 1) {
+    //     this.formData.cover.images = [''] // 单图模式
+    //   } else if (this.formData.cover.type === 3) {
+    //     this.formData.cover.images = ['', '', ''] // 单图模式
+    //   }
+    // }
+  },
+  methods: {
+    //  切换类型时触发
+    changeType () {
       // this指向组件实例
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
         // 无图或者自动模式
@@ -104,10 +116,7 @@ export default {
       } else if (this.formData.cover.type === 3) {
         this.formData.cover.images = ['', '', ''] // 单图模式
       }
-    }
-  },
-
-  methods: {
+    },
     //   获取频道
     getChannels () {
       this.$axios({
@@ -154,6 +163,7 @@ export default {
         }
       })
     },
+    // 获取文章详情通过Id
     getArticleById (articleId) {
       this.$axios({
         url: `/articles/${articleId}`
