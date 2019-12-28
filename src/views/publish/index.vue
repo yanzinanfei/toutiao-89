@@ -17,17 +17,20 @@
       <el-form-item prop="content" label="内容">
         <quill-editor style="height:400px" v-model="formData.content" type="textarea" :rows="4"></quill-editor>
       </el-form-item>
-      <el-form-item prop="type" label="封面" style="margin-top:100px">
+      <el-form-item prop="type" label="封面" style="margin-top:130px">
         <!-- 单选组  v-model="封面类型" -->
         <el-radio-group v-model="formData.cover.type">
           <el-radio :label="1">单图</el-radio>
           <el-radio :label="3">三图</el-radio>
           <el-radio :label="0">无图</el-radio>
-          <el-radio :label="-1">自动</el-radio>
+          <el-radio :label="  -1">自动</el-radio>
         </el-radio-group>
-        {{ formData.cover }}
       </el-form-item>
-      <el-form-item prop="channel_id" label="频道">
+      <!-- 放置一个封面组件 父传子 props   1.定义属性2.接收属性 -->
+      <cover-image :list='formData.cover.images'>
+
+      </cover-image>
+      <el-form-item style="margin-top:30px" prop="channel_id" label="频道">
         <el-select v-model="formData.channel_id">
           <!-- 循环生成多个el-option
               label 指的是 el-option显示值
