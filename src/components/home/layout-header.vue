@@ -4,7 +4,7 @@
       <!-- 左侧 -->
     <el-col class="left" :span="6">
       <!-- 左侧图标 -->
-      <i class="el-icon-s-unfold"></i>
+      <i class="el-icon-s-fold"></i>
       <span class="title">江苏传智播客教育科技股份有限公司</span>
     </el-col>
       <!-- 右侧 -->
