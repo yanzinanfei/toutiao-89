@@ -1,10 +1,11 @@
 <template>
-  <el-tabs v-model="activeName" @tab-click="handleClick">
+  <el-tabs v-model="activeName">
     <el-tab-pane label="素材库" name="material">
       <div class="select-img-list">
         <!-- 循环生成选择列表 -->
         <el-card class="img-card" v-for="item in list" :key="item.id">
-          <img :src="item.url" alt />
+          <!-- 点击图片时，调用方法，将图片地址传出去 -->
+          <img @click="clickImg(item.url)" :src="item.url" alt />
         </el-card>
       </div>
       <!-- 放置一个分页组件 -->
@@ -37,6 +38,10 @@ export default {
     }
   },
   methods: {
+    clickImg (url) {
+      // 需要将url地址传出去 $emit 自定义事件=》携带参数
+      this.$emit('selectOneImg', url) // 自定义事件名这里不再强制小写
+    },
     changePage (newPage) {
       this.page.currentPage = newPage
       this.getAllImg()
