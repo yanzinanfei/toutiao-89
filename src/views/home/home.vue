@@ -14,5 +14,6 @@ export default {
 .home {
   height: 100vh;
   background-size: cover;
+  background: url('../../assets/img/default.gif')
 }
 </style>
